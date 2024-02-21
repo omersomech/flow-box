@@ -13,7 +13,7 @@ export function LandingPage() {
         <Link className="flex items-center justify-center" href="#">
           <MountainIcon className="h-6 w-6" />
           <span>{session?.user?.name}</span>
-          <span className="sr-only">Acme Inc</span>
+          <span className="sr-only">Flow-box</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link

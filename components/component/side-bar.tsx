@@ -7,14 +7,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-  BarChartIcon,
   BellIcon,
   ChevronLeftIcon,
   HomeIcon,
   PackageIcon,
   SearchIcon,
-  ShoppingCartIcon,
-  UsersIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -28,7 +25,8 @@ export function SideBar({ children }: { children: React.ReactNode }) {
         <div className="flex h-[60px] items-center border-b px-6">
           <Link className="flex items-center gap-2 font-semibold" href="#">
             <PackageIcon className="h-6 w-6" />
-            <span>Acme Inc</span>
+
+            <span>Flow-box</span>
           </Link>
         </div>
         <div className="flex-1 overflow-auto py-4">
@@ -90,7 +88,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
             <span className="sr-only">Toggle sidebar</span>
           </Button>
           <Link className="font-semibold" href="#">
-            Acme Inc
+            Flow-box
           </Link>
           <div className="ml-auto">
             <Button size="icon" variant="outline">
