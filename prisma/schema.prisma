@@ -50,3 +50,11 @@ model User {
   Session               Session[]
   teamsIDs              String[]       @db.ObjectId
 }
+
+model VerificationToken {
+  identifier String    @id @map("_id")
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
