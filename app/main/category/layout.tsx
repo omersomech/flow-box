@@ -108,8 +108,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-              <DropdownMenuLabel className="flex flex-row items-center gap-1">
-                <Avatar className="w-6 h-6">
+              <DropdownMenuLabel className="flex flex-row items-center gap-2">
+                <Avatar className="w-9 h-9">
                   <AvatarImage src={session?.user?.image ?? ""} alt="@shadcn" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>

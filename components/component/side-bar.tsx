@@ -49,10 +49,10 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                 "flex items-center h-10 px-4 rounded-md text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50",
                 {
                   "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50":
-                    pathname.startsWith("/main/flows"),
+                    pathname.startsWith("/main/category"),
                 }
               )}
-              href="/main/flows"
+              href="/main/category"
             >
               <PackageIcon className="mr-2 h-4 w-4" />
               Flows
