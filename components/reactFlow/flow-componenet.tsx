@@ -133,7 +133,7 @@ const FlowComponent = () => {
   );
 
   return (
-    <div className="h-screen relative" style={{ direction: "ltr" }}>
+    <div className="h-full relative" style={{ direction: "ltr" }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
