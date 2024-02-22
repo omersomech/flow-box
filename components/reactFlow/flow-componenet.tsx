@@ -17,6 +17,8 @@ import "reactflow/dist/base.css";
 import customNode from "./custom-nodes/custom-node";
 import startNode from "./custom-nodes/start-node";
 import CustomEdge from "./custom-nodes/custom-edge";
+import { toast } from "sonner";
+import { formatDateToLocal } from "@/lib/utils";
 
 const nodeTypes: NodeTypes = {
   custom: customNode,
@@ -106,6 +108,13 @@ const FlowComponent = () => {
       if (targetIsPane) {
         // we need to remove the wrapper bounds, in order to get the correct position
         const id = getId();
+        toast(`New node created. id : ${id}`, {
+          description: formatDateToLocal(new Date()),
+          action: {
+            label: "Undo",
+            onClick: () => console.log("Undo"),
+          },
+        });
         const newNode = {
           id,
           type: "custom",
