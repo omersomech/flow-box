@@ -16,7 +16,7 @@ const Page = ({
 }) => {
   return (
     <div className="h-full">
-      <Button
+      {/* <Button
         variant="outline"
         onClick={() =>
           toast("Event has been created", {
@@ -29,7 +29,7 @@ const Page = ({
         }
       >
         Show Toast
-      </Button>
+      </Button> */}
       <ReactFlowProvider>
         <FlowComponent />
       </ReactFlowProvider>
