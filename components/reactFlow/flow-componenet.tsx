@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -11,6 +11,7 @@ import ReactFlow, {
   useReactFlow,
   EdgeTypes,
   NodeTypes,
+  useOnSelectionChange,
 } from "reactflow";
 // import "reactflow/dist/style.css";
 import "reactflow/dist/base.css";
@@ -19,6 +20,9 @@ import startNode from "./custom-nodes/start-node";
 import CustomEdge from "./custom-nodes/custom-edge";
 import { toast } from "sonner";
 import { formatDateToLocal } from "@/lib/utils";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Checkbox } from "../ui/checkbox";
 
 const nodeTypes: NodeTypes = {
   custom: customNode,
@@ -56,48 +60,82 @@ const initNodes = [
     position: { x: -200, y: 400 },
   },
 ];
-
+const initialEdges = [
+  { id: "e1-2", source: "1", target: "2" },
+  {
+    id: "e2-3",
+    source: "2",
+    target: "3",
+    data: {
+      label: "true",
+      color: "#00ff40",
+    },
+    type: "custom",
+  },
+  {
+    id: "e2-4",
+    source: "2",
+    target: "4",
+    data: {
+      label: "false",
+      color: "#DB6363",
+    },
+    type: "custom",
+  },
+];
+const defaultViewport = { x: 0, y: 0, zoom: 1.5 };
 let id = 5;
 const getId = () => `${id++}`;
 const FlowComponent = () => {
-  const initialEdges = [
-    { id: "e1-2", source: "1", target: "2" },
-    {
-      id: "e2-3",
-      source: "2",
-      target: "3",
-      data: {
-        label: "true",
-        color: "#00ff40",
-      },
-      type: "custom",
-    },
-    {
-      id: "e2-4",
-      source: "2",
-      target: "4",
-      data: {
-        label: "false",
-        color: "#DB6363",
-      },
-      type: "custom",
-    },
-  ];
-
+  const [nodeName, setNodeName] = useState("Node 1");
+  const [nodeBg, setNodeBg] = useState("#eee");
+  const [nodeHidden, setNodeHidden] = useState(false);
   const reactFlowWrapper = useRef(null);
   const connectingNodeId = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
+  const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
   const { screenToFlowPosition } = useReactFlow();
+
+  console.log(nodes);
+
   const onConnect = useCallback((params: any) => {
     // reset the start node on connections
     connectingNodeId.current = null;
     setEdges((eds) => addEdge(params, eds));
   }, []);
+  useOnSelectionChange({
+    onChange: ({ nodes, edges }) => {
+      setSelectedNodes(nodes.map((node) => node.id));
+      setSelectedEdges(edges.map((edge) => edge.id));
+      nodes.forEach((node) => {
+        setNodeName(node.data.name);
+        setNodeBg(node.data.job);
+        setNodeHidden(node.data.job);
+      });
+    },
+  });
 
   const onConnectStart = useCallback((_: any, { nodeId }: { nodeId: any }) => {
     connectingNodeId.current = nodeId;
   }, []);
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === "1") {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          node.data = {
+            ...node.data,
+            name: nodeName,
+          };
+        }
+
+        return node;
+      })
+    );
+  }, [nodeName, setNodes]);
 
   const onConnectEnd = useCallback(
     (event: any) => {
@@ -156,7 +194,42 @@ const FlowComponent = () => {
         edgeTypes={edgeTypes}
         fitViewOptions={{ padding: 2 }}
         nodeOrigin={[0.5, 0]}
+        defaultViewport={defaultViewport}
+        minZoom={0.2}
+        maxZoom={4}
+        attributionPosition="bottom-left"
       >
+        <div className="absolute right-[10px] top-[10px z-[4] text-sm">
+          <div className="flex flex-col gap-2">
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="email">Name</Label>
+              <Input
+                value={nodeName}
+                onChange={(evt) => setNodeName(evt.target.value)}
+              />
+            </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="email">Name</Label>
+              <Input
+                value={nodeBg}
+                onChange={(evt) => setNodeBg(evt.target.value)}
+              />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                checked={nodeHidden}
+                onCheckedChange={() => setNodeHidden(!nodeHidden)}
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Hide
+              </label>
+            </div>
+          </div>
+        </div>
         <Controls />
         <MiniMap />
         <Background gap={12} size={1} />
