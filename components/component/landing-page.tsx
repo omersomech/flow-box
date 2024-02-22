@@ -133,13 +133,13 @@ export function LandingPage() {
             <div className="mx-auto grid max-w-sm items-start gap-4 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
               <Card>
                 <CardContent className="p-4">
-                  <img
+                  {/* <img
                     alt="Chart"
                     className="aspect-video overflow-hidden rounded-lg object-cover object-center"
                     height="225"
                     src="/placeholder.svg"
                     width="400"
-                  />
+                  /> */}
                 </CardContent>
                 <CardFooter className="border-t">
                   <div className="text-sm font-medium">Team Meeting</div>
@@ -147,13 +147,13 @@ export function LandingPage() {
               </Card>
               <Card>
                 <CardContent className="p-4">
-                  <img
+                  {/* <img
                     alt="Chart"
                     className="aspect-video overflow-hidden rounded-lg object-cover object-center"
                     height="225"
                     src="/placeholder.svg"
                     width="400"
-                  />
+                  /> */}
                 </CardContent>
                 <CardFooter className="border-t">
                   <div className="text-sm font-medium">Project Plan</div>
@@ -161,13 +161,13 @@ export function LandingPage() {
               </Card>
               <Card>
                 <CardContent className="p-4">
-                  <img
+                  {/* <img
                     alt="Chart"
                     className="aspect-video overflow-hidden rounded-lg object-cover object-center"
                     height="225"
                     src="/placeholder.svg"
                     width="400"
-                  />
+                  /> */}
                 </CardContent>
                 <CardFooter className="border-t">
                   <div className="text-sm font-medium">Workflow</div>

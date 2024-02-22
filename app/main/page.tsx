@@ -13,8 +13,8 @@ const Page = () => {
               with <span className="text-[#4f46e5]"> flow-box</span>
             </h1>
             <p className="mt-4 text-base text-gray-600">
-              Flow-box is a tool that helps you create and manage workflows for
-              your business. It's simple, easy to use, and powerful.
+              {`Flow-box is a tool that helps you create and manage workflows for
+              your business. It's simple, easy to use, and powerful.`}
             </p>
             <Button className="mt-8" variant="secondary">
               Create new flow <ArrowRightIcon className="ml-2 w-4 h-4" />

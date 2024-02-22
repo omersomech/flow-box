@@ -64,7 +64,7 @@ const Page = async ({
           <TableBody>
             {flows.map((flow) => {
               return (
-                <TableRow>
+                <TableRow key={flow.id}>
                   <TableCell className="font-medium">#{flow.id}</TableCell>
                   <TableCell>{flow.name}</TableCell>
                   <TableCell className="hidden md:table-cell">

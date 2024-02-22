@@ -100,7 +100,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
               <span className="sr-only">Notifications</span>
             </Button>
             <Button className="ml-2" size="icon" variant="outline">
-              <img
+              {/* <img
                 alt="Avatar"
                 className="rounded-full"
                 height="32"
@@ -110,7 +110,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                   objectFit: "cover",
                 }}
                 width="32"
-              />
+              /> */}
               <span className="sr-only">Avatar</span>
             </Button>
           </div>

@@ -109,7 +109,7 @@ export function Flows() {
                 size="icon"
                 variant="ghost"
               >
-                <img
+                {/* <img
                   alt="Avatar"
                   className="rounded-full"
                   height="32"
@@ -119,7 +119,7 @@ export function Flows() {
                     objectFit: "cover",
                   }}
                   width="32"
-                />
+                /> */}
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>

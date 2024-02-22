@@ -7,11 +7,6 @@ import NavMenu from "./components/NavMenu";
 import SessionProvider from "./components/SessionProvider";
 import { Toaster } from "@/components/ui/sonner";
 
-export const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -23,8 +18,8 @@ export default async function RootLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          "min-h-screen bg-background font-sans antialiased"
+          // fontSans.variable
         )}
       >
         <SessionProvider session={session}>{children}</SessionProvider>
