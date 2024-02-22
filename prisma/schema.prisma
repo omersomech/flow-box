@@ -41,20 +41,35 @@ model Session {
 }
 
 model User {
-  id                    String         @id @default(cuid()) @map("_id")
-  name                  String?
-  email                 String?        @unique
-  image                 String?
-  emailVerified         DateTime?
-  Account               Account[]
-  Session               Session[]
-  teamsIDs              String[]       @db.ObjectId
+  id            String    @id @default(cuid()) @map("_id")
+  name          String?
+  email         String?   @unique
+  image         String?
+  emailVerified DateTime?
+  Account       Account[]
+  Session       Session[]
+  teamsIDs      String[]  @db.ObjectId
+  Flow          Flow[]
 }
 
 model VerificationToken {
-  identifier String    @id @map("_id")
+  identifier String   @id @map("_id")
   token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Flow {
+  id          String   @id @default(cuid()) @map("_id")
+  name        String
+  category    String
+  description String?
+  label       String?
+  type        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reactFlow   String
 }

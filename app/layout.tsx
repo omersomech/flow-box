@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 
 import NavMenu from "./components/NavMenu";
 import SessionProvider from "./components/SessionProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default async function RootLayout({
         )}
       >
         <SessionProvider session={session}>{children}</SessionProvider>
+        <Toaster />
       </body>
     </html>
   );

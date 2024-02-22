@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex h-[60px] items-center px-6">
             <Link className="flex items-center gap-2 font-semibold" href="#">
               <Package2Icon className="h-6 w-6" />
-              <span className="">Catagories</span>
+              <span className="">Catageries</span>
             </Link>
           </div>
           <div className="flex-1">
@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50",
                       {
                         "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50":
-                          pathname.endsWith(item.href),
+                          pathname.startsWith(item.href),
                       }
                     )}
                     href={item.href}
