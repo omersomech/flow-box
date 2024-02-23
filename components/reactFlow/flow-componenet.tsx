@@ -24,6 +24,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
+import { updateUser } from "@/app/actions";
 
 const nodeTypes: NodeTypes = {
   custom: customNode,
@@ -87,6 +88,10 @@ const initialEdges = [
 const defaultViewport = { x: 0, y: 0, zoom: 1.5 };
 let id = 5;
 const getId = () => `${id++}`;
+const initialState = {
+  message: "",
+};
+
 const FlowComponent = () => {
   const [nodeId, setNodeId] = useState("");
   const [nodeName, setNodeName] = useState("");
@@ -100,6 +105,7 @@ const FlowComponent = () => {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
   const { screenToFlowPosition } = useReactFlow();
+  const updateUserWithId = updateUser.bind(null, nodes);
 
   console.log(changed);
 
@@ -224,10 +230,6 @@ const FlowComponent = () => {
     },
     [screenToFlowPosition]
   );
-  console.log(initNodes);
-  console.log(nodes.toString() == initNodes.toString());
-  console.log(changed);
-  console.log(changed < 2);
 
   return (
     <div className="h-full relative" style={{ direction: "ltr" }}>
@@ -253,13 +255,11 @@ const FlowComponent = () => {
         attributionPosition="bottom-left"
       >
         <div className="absolute left-[10px] top-[10px] z-[4] text-sm">
-          <Button
-            disabled={changed < 2}
-            onClick={() => console.log(nodes)}
-            variant="outline"
-          >
-            Save
-          </Button>
+          <form action={updateUserWithId}>
+            <Button disabled={changed < 2} variant="outline" type="submit">
+              Save
+            </Button>
+          </form>
         </div>
         <div className="absolute right-[10px] top-[10px] z-[4] text-sm">
           <div className="flex flex-col gap-2">

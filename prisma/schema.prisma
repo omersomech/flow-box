@@ -71,5 +71,5 @@ model Flow {
   updatedAt   DateTime @updatedAt
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reactFlow   String
+  reactFlow   Json?
 }
