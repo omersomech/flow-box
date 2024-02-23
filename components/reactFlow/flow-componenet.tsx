@@ -23,6 +23,7 @@ import { formatDateToLocal } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
+import { Button } from "../ui/button";
 
 const nodeTypes: NodeTypes = {
   custom: customNode,
@@ -87,8 +88,10 @@ const defaultViewport = { x: 0, y: 0, zoom: 1.5 };
 let id = 5;
 const getId = () => `${id++}`;
 const FlowComponent = () => {
-  const [nodeName, setNodeName] = useState("Node 1");
-  const [nodeBg, setNodeBg] = useState("#eee");
+  const [nodeId, setNodeId] = useState("");
+  const [nodeName, setNodeName] = useState("");
+  const [nodeDescription, setNodeDescription] = useState("");
+  const [changed, setChanged] = useState(0);
   const [nodeHidden, setNodeHidden] = useState(false);
   const reactFlowWrapper = useRef(null);
   const connectingNodeId = useRef(null);
@@ -98,21 +101,24 @@ const FlowComponent = () => {
   const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
   const { screenToFlowPosition } = useReactFlow();
 
-  console.log(nodes);
+  console.log(changed);
 
   const onConnect = useCallback((params: any) => {
     // reset the start node on connections
     connectingNodeId.current = null;
     setEdges((eds) => addEdge(params, eds));
   }, []);
+
   useOnSelectionChange({
     onChange: ({ nodes, edges }) => {
+      console.log("selected nodes", nodes);
       setSelectedNodes(nodes.map((node) => node.id));
       setSelectedEdges(edges.map((edge) => edge.id));
       nodes.forEach((node) => {
+        setNodeId(node.id);
         setNodeName(node.data.name);
-        setNodeBg(node.data.job);
-        setNodeHidden(node.data.job);
+        setNodeDescription(node.data.job);
+        setNodeHidden(false);
       });
     },
   });
@@ -120,10 +126,11 @@ const FlowComponent = () => {
   const onConnectStart = useCallback((_: any, { nodeId }: { nodeId: any }) => {
     connectingNodeId.current = nodeId;
   }, []);
+
   useEffect(() => {
     setNodes((nds) =>
       nds.map((node) => {
-        if (node.id === "1") {
+        if (node.id === nodeId) {
           // it's important that you create a new object here
           // in order to notify react flow about the change
           node.data = {
@@ -136,6 +143,45 @@ const FlowComponent = () => {
       })
     );
   }, [nodeName, setNodes]);
+
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === nodeId) {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          node.data = {
+            ...node.data,
+            job: nodeDescription,
+          };
+        }
+
+        return node;
+      })
+    );
+  }, [nodeDescription, setNodes]);
+
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === nodeId) {
+          // when you update a simple type you can just update the value
+          node.hidden = nodeHidden;
+        }
+
+        return node;
+      })
+    );
+    setEdges((eds) =>
+      eds.map((edge) => {
+        if (edge.id === "e1-2") {
+          edge.hidden = nodeHidden;
+        }
+
+        return edge;
+      })
+    );
+  }, [nodeHidden, setNodes, setEdges]);
 
   const onConnectEnd = useCallback(
     (event: any) => {
@@ -178,13 +224,20 @@ const FlowComponent = () => {
     },
     [screenToFlowPosition]
   );
+  console.log(initNodes);
+  console.log(nodes.toString() == initNodes.toString());
+  console.log(changed);
+  console.log(changed < 2);
 
   return (
     <div className="h-full relative" style={{ direction: "ltr" }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
+        onNodesChange={(e) => {
+          onNodesChange(e);
+          setChanged(changed + 1);
+        }}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
@@ -199,7 +252,16 @@ const FlowComponent = () => {
         maxZoom={4}
         attributionPosition="bottom-left"
       >
-        <div className="absolute right-[10px] top-[10px z-[4] text-sm">
+        <div className="absolute left-[10px] top-[10px] z-[4] text-sm">
+          <Button
+            disabled={changed < 2}
+            onClick={() => console.log(nodes)}
+            variant="outline"
+          >
+            Save
+          </Button>
+        </div>
+        <div className="absolute right-[10px] top-[10px] z-[4] text-sm">
           <div className="flex flex-col gap-2">
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Name</Label>
@@ -211,8 +273,8 @@ const FlowComponent = () => {
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email">Name</Label>
               <Input
-                value={nodeBg}
-                onChange={(evt) => setNodeBg(evt.target.value)}
+                value={nodeDescription}
+                onChange={(evt) => setNodeDescription(evt.target.value)}
               />
             </div>
 
