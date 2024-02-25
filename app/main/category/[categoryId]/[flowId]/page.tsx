@@ -5,6 +5,8 @@ import { ReactFlowProvider } from "reactflow";
 import { toast } from "sonner";
 import FlowProvider from "./componenets/flow-provider";
 import { prisma } from "@/lib/db";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { BookTemplate, Terminal } from "lucide-react";
 
 const Page = async ({
   params,
@@ -24,6 +26,32 @@ const Page = async ({
   });
   return (
     <div className="h-full">
+      {flow?.reactFlow ? (
+        <FlowProvider>
+          <FlowComponent
+            nodesFromServer={JSON.parse(flow?.reactFlow)}
+            edgesFromServer={JSON.parse(flow?.reactEdges)}
+          />
+        </FlowProvider>
+      ) : (
+        <div className="container flex flex-col justify-center items-center h-full w-1/4 gap-3">
+          <Alert className="hover:bg-slate-200 cursor-pointer">
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Create new blank flow</AlertTitle>
+            <AlertDescription>
+              You can create a new flow by clicking the button below.
+            </AlertDescription>
+          </Alert>
+          <Alert className="hover:bg-slate-200 cursor-pointer">
+            <BookTemplate className="h-4 w-4" />
+            <AlertTitle>Create new from template</AlertTitle>
+            <AlertDescription>
+              You can create a new flow from a template by clicking the button
+              below.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
       {/* <Button
         variant="outline"
         onClick={() =>
@@ -38,12 +66,6 @@ const Page = async ({
       >
         Show Toast
       </Button> */}
-      <FlowProvider>
-        <FlowComponent
-          nodesFromServer={JSON.parse(flow?.reactFlow)}
-          edgesFromServer={JSON.parse(flow?.reactEdges)}
-        />
-      </FlowProvider>
     </div>
   );
 };
