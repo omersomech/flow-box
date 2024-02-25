@@ -92,7 +92,13 @@ const initialState = {
   message: "",
 };
 
-const FlowComponent = () => {
+const FlowComponent = ({
+  nodesFromServer,
+  edgesFromServer,
+}: {
+  nodesFromServer: any[];
+  edgesFromServer: any[];
+}) => {
   const [nodeId, setNodeId] = useState("");
   const [nodeName, setNodeName] = useState("");
   const [nodeDescription, setNodeDescription] = useState("");
@@ -100,12 +106,14 @@ const FlowComponent = () => {
   const [nodeHidden, setNodeHidden] = useState(false);
   const reactFlowWrapper = useRef(null);
   const connectingNodeId = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(nodesFromServer);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(edgesFromServer);
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
   const { screenToFlowPosition } = useReactFlow();
-  const updateUserWithId = updateUser.bind(null, nodes);
+  const updateUserWithId = updateUser.bind(null, nodes, edges);
+
+  console.log(nodesFromServer);
 
   console.log(changed);
 
@@ -240,8 +248,14 @@ const FlowComponent = () => {
           onNodesChange(e);
           setChanged(changed + 1);
         }}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
+        onEdgesChange={(e) => {
+          onEdgesChange(e);
+          setChanged(changed + 1);
+        }}
+        onConnect={(e) => {
+          onConnect(e);
+          setChanged(changed + 1);
+        }}
         nodeTypes={nodeTypes}
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}

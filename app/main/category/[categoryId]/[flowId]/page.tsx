@@ -1,12 +1,12 @@
-"use client";
-
 import FlowComponent from "@/components/reactFlow/flow-componenet";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { ReactFlowProvider } from "reactflow";
 import { toast } from "sonner";
+import FlowProvider from "./componenets/flow-provider";
+import { prisma } from "@/lib/db";
 
-const Page = ({
+const Page = async ({
   params,
 }: {
   params: {
@@ -14,6 +14,14 @@ const Page = ({
     flowId: string;
   };
 }) => {
+  const flow = await prisma.flow.findUnique({
+    include: {
+      user: true,
+    },
+    where: {
+      id: params.flowId,
+    },
+  });
   return (
     <div className="h-full">
       {/* <Button
@@ -30,9 +38,12 @@ const Page = ({
       >
         Show Toast
       </Button> */}
-      <ReactFlowProvider>
-        <FlowComponent />
-      </ReactFlowProvider>
+      <FlowProvider>
+        <FlowComponent
+          nodesFromServer={JSON.parse(flow?.reactFlow)}
+          edgesFromServer={JSON.parse(flow?.reactEdges)}
+        />
+      </FlowProvider>
     </div>
   );
 };
