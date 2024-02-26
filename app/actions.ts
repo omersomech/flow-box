@@ -63,3 +63,23 @@ export async function createFlow(formData: FormData) {
   }
   return;
 }
+
+export async function startBlankFlow(
+  nodes: any,
+  flowId: string,
+  formData: FormData
+) {
+  try {
+    await prisma.flow.update({
+      data: {
+        reactFlow: JSON.stringify(nodes),
+      },
+      where: {
+        id: flowId,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+  return;
+}

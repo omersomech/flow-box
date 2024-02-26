@@ -31,7 +31,7 @@ const Page = async ({
           <FlowComponent flow={flow} />
         </FlowProvider>
       ) : (
-        <div className="container flex flex-col justify-center items-center h-full w-1/4 gap-3">
+        <div className="container flex flex-col justify-center items-center h-full w-96 gap-3">
           <Alert className="hover:bg-slate-200 cursor-pointer">
             <Terminal className="h-4 w-4" />
             <AlertTitle>Create new blank flow</AlertTitle>

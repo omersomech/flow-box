@@ -12,6 +12,12 @@ type category = {
   description: string;
   icon: JSX.Element;
   href: string;
+  value: string;
+};
+type flowType = {
+  id: string;
+  name: string;
+  value: string;
 };
 
 export const categories: category[] = [
@@ -20,7 +26,8 @@ export const categories: category[] = [
     name: "All",
     description: "Description 1",
     icon: <WholeWord className="h-4 w-4" />,
-    href: "/main/category",
+    href: "/main/category/all",
+    value: "all",
   },
   {
     id: "2",
@@ -28,6 +35,7 @@ export const categories: category[] = [
     description: "Description 1",
     icon: <Building className="h-4 w-4" />,
     href: "/main/category/business",
+    value: "business",
   },
   {
     id: "3",
@@ -35,6 +43,7 @@ export const categories: category[] = [
     description: "Description 2",
     icon: <PersonStanding className="h-4 w-4" />,
     href: "/main/category/personal",
+    value: "personal",
   },
   {
     id: "4",
@@ -42,5 +51,32 @@ export const categories: category[] = [
     description: "Description 3",
     icon: <PackageIcon className="h-4 w-4" />,
     href: "/main/category/products",
+    value: "products",
+  },
+  {
+    id: "5",
+    name: "Other",
+    description: "Description 4",
+    icon: <PackageIcon className="h-4 w-4" />,
+    href: "/main/category/other",
+    value: "other",
+  },
+];
+
+export const flowTypes: flowType[] = [
+  {
+    id: "1",
+    name: "WorkFlow",
+    value: "workflow",
+  },
+  {
+    id: "2",
+    name: "Api",
+    value: "api",
+  },
+  {
+    id: "3",
+    name: "Job",
+    value: "job",
   },
 ];

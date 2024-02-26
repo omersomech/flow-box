@@ -30,9 +30,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
         <div className="flex flex-col gap-2">
           <div className="flex h-[60px] items-center px-6">
-            <Link className="flex items-center gap-2 font-semibold" href="#">
+            <Link
+              className="flex items-center gap-2 font-semibold"
+              href="/main/category"
+            >
               <Package2Icon className="h-6 w-6" />
-              <span className="">Catageries</span>
+              <span className="">Categeries</span>
             </Link>
           </div>
           <div className="flex-1">
