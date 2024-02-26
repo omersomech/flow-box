@@ -44,7 +44,7 @@ const Page = async ({
       ) : (
         <div className="container flex flex-col justify-center items-center h-full w-96 gap-3">
           <form action={startBlankFlow.bind(null, initNodes, params.flowId)}>
-            <Alert className="hover:bg-slate-200 cursor-pointer">
+            {/* <Alert className="hover:bg-slate-200 cursor-pointer">
               <Button type="submit">
                 <Terminal className="h-4 w-4" />
                 <AlertTitle>Create new blank flow</AlertTitle>
@@ -52,7 +52,10 @@ const Page = async ({
                   You can create a new flow by clicking the button below.
                 </AlertDescription>
               </Button>
-            </Alert>
+            </Alert> */}
+            <Button type="submit" variant={"outline"} className="h-20 w-96">
+              <Terminal className="h-4 w-4" /> Create new blank flow.
+            </Button>
           </form>
           <Alert className="hover:bg-slate-200 cursor-pointer">
             <BookTemplate className="h-4 w-4" />
