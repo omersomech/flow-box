@@ -6,21 +6,22 @@ import {
   WholeWord,
 } from "lucide-react";
 
-type category = {
+export type Category = {
   id: string;
   name: string;
   description: string;
   icon: JSX.Element;
   href: string;
   value: string;
+  count?: number;
 };
-type flowType = {
+type FlowType = {
   id: string;
   name: string;
   value: string;
 };
 
-export const categories: category[] = [
+export const categories: Category[] = [
   {
     id: "1",
     name: "All",

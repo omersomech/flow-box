@@ -105,7 +105,7 @@ const FlowComponent = ({ flow }: { flow: Flow }) => {
     JSON.parse(flow.reactFlow)
   );
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    JSON.parse(flow.reactEdges)
+    JSON.parse(flow.reactEdges) ?? []
   );
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<string[]>([]);

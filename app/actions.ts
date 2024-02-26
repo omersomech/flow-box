@@ -78,6 +78,7 @@ export async function startBlankFlow(
         id: flowId,
       },
     });
+    revalidatePath("/main/category/[categoryId]/[flowId]");
   } catch (e) {
     console.log(e);
   }

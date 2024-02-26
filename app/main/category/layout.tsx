@@ -1,5 +1,3 @@
-"use client";
-
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -13,17 +11,33 @@ import {
   DropdownMenuContent,
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
-
+import { getServerSession } from "next-auth";
 import { Package2Icon, SearchIcon } from "lucide-react";
 import { categories } from "./data/categories";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { prisma } from "@/lib/db";
+import SideBarCategory from "./data/side-bar-category";
+import SignOut from "./components/sign-out";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const { data: session } = useSession();
-  const pathname = usePathname();
-  console.log(pathname);
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await getServerSession();
+  const groupByCategory = await prisma.flow.groupBy({
+    by: ["category"],
+    _count: true,
+  });
+  console.log(groupByCategory);
+
+  const updatedList = categories.map((item) => ({
+    ...item,
+    count: groupByCategory.find((countCat) => countCat.category === item.value)
+      ?._count, // You can change this value based on your counting logic
+  }));
 
   return (
     <div className="grid min-h-screen w-full overflow-hidden lg:grid-cols-[280px_1fr]">
@@ -35,11 +49,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               href="/main/category"
             >
               <Package2Icon className="h-6 w-6" />
-              <span className="">Categeries</span>
+              <span className="">Categories</span>
             </Link>
           </div>
           <div className="flex-1">
-            <nav className="grid items-start px-4 text-sm font-medium">
+            <SideBarCategory categories={updatedList} />
+            {/* <nav className="grid items-start px-4 text-sm font-medium">
+
               {categories.map((item) => {
                 return (
                   <Link
@@ -61,7 +77,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   </Link>
                 );
               })}
-            </nav>
+            </nav> */}
           </div>
         </div>
       </div>
@@ -127,9 +143,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => signOut()}>
-                Logout
-              </DropdownMenuItem>
+              <SignOut />
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

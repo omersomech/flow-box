@@ -7,7 +7,16 @@ import FlowProvider from "./componenets/flow-provider";
 import { prisma } from "@/lib/db";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { BookTemplate, Terminal } from "lucide-react";
+import { startBlankFlow, updateUser } from "@/app/actions";
 
+const initNodes = [
+  {
+    id: "1",
+    type: "start",
+    data: { name: "Start", job: "New blank flow", emoji: "😎" },
+    position: { x: 0, y: 50 },
+  },
+];
 const Page = async ({
   params,
 }: {
@@ -24,6 +33,8 @@ const Page = async ({
       id: params.flowId,
     },
   });
+  console.log(flow);
+
   return (
     <div className="h-full">
       {flow?.reactFlow ? (
@@ -32,13 +43,17 @@ const Page = async ({
         </FlowProvider>
       ) : (
         <div className="container flex flex-col justify-center items-center h-full w-96 gap-3">
-          <Alert className="hover:bg-slate-200 cursor-pointer">
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Create new blank flow</AlertTitle>
-            <AlertDescription>
-              You can create a new flow by clicking the button below.
-            </AlertDescription>
-          </Alert>
+          <form action={startBlankFlow.bind(null, initNodes, params.flowId)}>
+            <Alert className="hover:bg-slate-200 cursor-pointer">
+              <Button type="submit">
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>Create new blank flow</AlertTitle>
+                <AlertDescription>
+                  You can create a new flow by clicking the button below.
+                </AlertDescription>
+              </Button>
+            </Alert>
+          </form>
           <Alert className="hover:bg-slate-200 cursor-pointer">
             <BookTemplate className="h-4 w-4" />
             <AlertTitle>Create new from template</AlertTitle>
