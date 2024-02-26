@@ -25,6 +25,7 @@ import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import { updateUser } from "@/app/actions";
+import { Flow } from "@prisma/client";
 
 const nodeTypes: NodeTypes = {
   custom: customNode,
@@ -92,13 +93,7 @@ const initialState = {
   message: "",
 };
 
-const FlowComponent = ({
-  nodesFromServer,
-  edgesFromServer,
-}: {
-  nodesFromServer: any[];
-  edgesFromServer: any[];
-}) => {
+const FlowComponent = ({ flow }: { flow: Flow }) => {
   const [nodeId, setNodeId] = useState("");
   const [nodeName, setNodeName] = useState("");
   const [nodeDescription, setNodeDescription] = useState("");
@@ -106,16 +101,16 @@ const FlowComponent = ({
   const [nodeHidden, setNodeHidden] = useState(false);
   const reactFlowWrapper = useRef(null);
   const connectingNodeId = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(nodesFromServer);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(edgesFromServer);
+  const [nodes, setNodes, onNodesChange] = useNodesState(
+    JSON.parse(flow.reactFlow)
+  );
+  const [edges, setEdges, onEdgesChange] = useEdgesState(
+    JSON.parse(flow.reactEdges)
+  );
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
   const { screenToFlowPosition } = useReactFlow();
-  const updateUserWithId = updateUser.bind(null, nodes, edges);
-
-  console.log(nodesFromServer);
-
-  console.log(changed);
+  const updateUserWithId = updateUser.bind(null, nodes, edges, flow.id);
 
   const onConnect = useCallback((params: any) => {
     // reset the start node on connections

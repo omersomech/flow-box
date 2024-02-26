@@ -54,6 +54,9 @@ const Page = async ({
     include: {
       user: true,
     },
+    where: {
+      category: params.categoryId,
+    },
   });
   console.log(flows);
 

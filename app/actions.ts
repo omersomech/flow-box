@@ -4,12 +4,20 @@ import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
-export async function updateUser(nodes: any, edges: any, formData: FormData) {
+export async function updateUser(
+  nodes: any,
+  edges: any,
+  flowId: string,
+  formData: FormData
+) {
   try {
-    await prisma.flow.updateMany({
+    await prisma.flow.update({
       data: {
         reactFlow: JSON.stringify(nodes),
         reactEdges: JSON.stringify(edges),
+      },
+      where: {
+        id: flowId,
       },
     });
   } catch (e) {

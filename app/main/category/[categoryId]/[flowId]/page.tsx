@@ -28,10 +28,7 @@ const Page = async ({
     <div className="h-full">
       {flow?.reactFlow ? (
         <FlowProvider>
-          <FlowComponent
-            nodesFromServer={JSON.parse(flow?.reactFlow)}
-            edgesFromServer={JSON.parse(flow?.reactEdges)}
-          />
+          <FlowComponent flow={flow} />
         </FlowProvider>
       ) : (
         <div className="container flex flex-col justify-center items-center h-full w-1/4 gap-3">
